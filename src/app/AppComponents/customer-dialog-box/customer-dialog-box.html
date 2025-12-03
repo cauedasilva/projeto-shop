@@ -1,0 +1,73 @@
+@if (visible()) {
+<div #modal class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Add Customer</h5>
+                <button type="button" class="btn-close" (click)="close()"></button>
+            </div>
+
+            <!-- Body -->
+            <form (ngSubmit)="onSubmit()">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Customer ID</label>
+                        <input type="number" class="form-control"
+                               [(ngModel)]="customer().customerId"
+                               name="customerId"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Customer Name</label>
+                        <input type="text" class="form-control"
+                               [(ngModel)]="customer().customerName"
+                               name="customerName"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control"
+                               [(ngModel)]="customer().email"
+                               name="email"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control"
+                               [(ngModel)]="customer().phone"
+                               name="phone"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Registration Date</label>
+                        <input type="date" class="form-control"
+                               [(ngModel)]="customer().registrationDate"
+                               name="registrationDate"
+                               required>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal backdrop -->
+<div class="modal-backdrop fade show"></div>
+}
