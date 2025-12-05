@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -6,13 +6,15 @@ import { DialogBox } from '../../AppComponents/dialog-box/dialog-box';
 
 @Component({
   selector: 'app-inventory',
+  standalone: true,
   imports: [FormsModule, CommonModule, DialogBox],
   templateUrl: './inventory.html',
   styleUrl: './inventory.css',
 })
-export class Inventory {
+export class Inventory implements OnInit {
 
   httpClient = inject(HttpClient);
+  ngZone = inject(NgZone);
 
   @ViewChild('confirmDialog') confirmDialog!: DialogBox;
 
@@ -26,27 +28,27 @@ export class Inventory {
     reorderPoint: 0
   };
 
-  inventoryDetails: any;
+  inventoryDetails: any[] = [];
 
-  ngOnInit(): void {
-    this.getInventoryDetails();
+  ngOnInit() {
+    this.ngZone.run(()=>this.getInventoryDetails());
   }
 
   getInventoryDetails(): void {
     const apiUrl = "https://localhost:7259/api/inventory";
 
-    this.httpClient.get(apiUrl).subscribe(data => {
+    this.httpClient.get<any[]>(apiUrl).subscribe(data => {
       this.inventoryDetails = data;
       console.log(this.inventoryDetails);
     });
 
-    this.inventoryData = { 
+    this.inventoryData = {
       productId: 0,
       productName: "",
       availableQuantity: 0,
       reorderPoint: 0
     };
-    
+
     this.disableProductIdInput = false;
   }
 
@@ -62,7 +64,14 @@ export class Inventory {
     if (this.disableProductIdInput) {
       this.httpClient.put(apiUrl, this.inventoryData, httpOptions).subscribe({
         next: v => console.log(v),
-        error: e => console.error(e),
+        error: e => {
+          if (e.status === 409) {
+            alert("Erro: ID já existe!");
+          } else {
+            alert("Erro ao enviar!");
+          }
+          console.error(e)
+        },
         complete: () => {
           alert("Submitted: " + JSON.stringify(this.inventoryData));
           this.getInventoryDetails();
@@ -71,7 +80,14 @@ export class Inventory {
     } else {
       this.httpClient.post(apiUrl, this.inventoryData, httpOptions).subscribe({
         next: v => console.log(v),
-        error: e => console.error(e),
+        error: e => {
+          if (e.status === 409) {
+            alert("Erro: ID já existe!");
+          } else {
+            alert("Erro ao enviar!");
+          }
+          console.error(e)
+        },
         complete: () => {
           alert("Submitted: " + JSON.stringify(this.inventoryData));
           this.getInventoryDetails();
@@ -82,7 +98,7 @@ export class Inventory {
 
   openConfirmDialog(productId: number) {
     this.productIdToDelete = productId;
-    this.confirmDialog.open("Confirm Delete", "Delete this item?");
+    this.confirmDialog.open("Confirmar exclusão", "Deletar este item?");
   }
 
   handleDelete(confirmed: boolean) {

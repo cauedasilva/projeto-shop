@@ -15,8 +15,8 @@ export class DialogBox implements AfterViewInit {
 
   @Output() onClose = new EventEmitter<boolean>();
 
-  title = 'Confirm';
-  message = 'Are you sure?';
+  title = 'Confirmar';
+  message = 'Você tem certeza?';
 
   private modalInstance: any;
 

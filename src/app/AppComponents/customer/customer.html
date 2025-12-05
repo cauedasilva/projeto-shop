@@ -1,16 +1,14 @@
 <div class="container mt-4">
 
-    <!-- Top Button -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Customer Details</h2>
-        <button class="btn btn-primary" (click)="openCustomerDialog()">Add a new Customer</button>
+        <h2>Dados do cliente</h2>
+        <button class="btn btn-primary" (click)="openCustomerDialog()">Adicione um novo cliente</button>
     </div>
 
-    <!-- Customer Table -->
     <table class="table table-striped align-middle shadow-sm">
         <thead class="table-light">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">#Id</th>
                 <th scope="col">Nome</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Telefone</th>
@@ -20,29 +18,30 @@
         </thead>
 
         <tbody>
-
+            @for (customer of customerDetails; track customer.customerId) {
             <tr>
-                <td><strong></strong></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><strong>{{customer.customerId}}</strong></td>
+                <td>{{customer.firstName}} {{customer.lastName}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.phone}}</td>
+                <td>{{ customer.registrationDate | date:'yyyy-MM-dd' }}</td>
+
 
                 <td class="text-center">
-                    <button class="btn btn-sm btn-primary me-2">Editar</button>
-                    <!--(click)="editCustomer(customer)" -->
+                    <button class="btn btn-sm btn-primary me-2" (click)="openCustomerEditDialogBox(customer)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="openConfirmDialog(customer.customerId)">Deletar</button>
 
-                    <button class="btn btn-sm btn-danger">Deletar</button>
-                    <!--(click)="confirmDelete(customer.customerId)"-->
                 </td>
             </tr>
-
+            }
         </tbody>
 
 
     </table>
 
     <app-customer-dialog-box #customerDialogBox (onSave)="addCustomer($event)"></app-customer-dialog-box>
+    <app-dialog-box #confirmDialog (onClose)="handleDelete($event)">
+        </app-dialog-box>
 
 
 </div>

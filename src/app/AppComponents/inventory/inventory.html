@@ -7,32 +7,37 @@
     <title>Estoque</title>
 </head>
 
-<body class="p-4">
+<div class="p-4">
 
-    <div class="container">
+    <div class="align-content-center">
         <h1 class="mb-4">Estoque</h1>
 
-        <!-- Form -->
-        <form class="row g-3 mb-4" (ngSubmit)="onSubmit()" noValidate>
+        <form class="row g-3 mb-4 align-items-end" (ngSubmit)="onSubmit()" noValidate>
             <div class="col-md-3">
-                <input type="text" class="form-control" placeholder="Product ID" [disabled]="disableProductIdInput"
-                    [(ngModel)]="inventoryData.productId" name="productId" required>
+                <h6 class="text-start" style="padding-left: 5%;">Id do Produto</h6>
+                <input type="text" class="form-control" placeholder="#Id" [disabled]="disableProductIdInput"
+                    [(ngModel)]="inventoryData.productId" name="productId" min="1" required>
             </div>
 
             <div class="col-md-3">
+                <h6 class="text-start" style="padding-left: 5%;">Tipo de Produto</h6>
                 <select class="form-select" id="specificSizeInputName" [(ngModel)]="inventoryData.productName"
                     name="productName" required>
                     <option selected disabled value="">Escolha...</option>
-                    <option value="1">Exemplo</option>
+                    <option value="1">Opção 1</option>
+                    <option value="2">Opção 2</option>
+                    <option value="3">Opção 3</option>
                 </select>
             </div>
 
             <div class="col-md-2">
+                <h6 class="text-start" style="padding-left: 5%;">Estoque disponível</h6>
                 <input type="number" class="form-control" placeholder="Stock"
                     [(ngModel)]="inventoryData.availableQuantity" name="availableQuantity" required>
             </div>
 
             <div class="col-md-2">
+                <h6 class="text-start" style="padding-left: 5%;">Ponto de reposição</h6>
                 <input type="number" class="form-control" placeholder="Reorder Point"
                     [(ngModel)]="inventoryData.reorderPoint" name="reorderPoint" required>
             </div>
@@ -42,21 +47,20 @@
             </div>
         </form>
 
-        <!-- Table -->
         <h4>Detalhes do estoque</h4>
 
         <table class="table table-striped mt-3">
             <thead class="table-light">
                 <tr>
-                    <th>#</th>
-                    <th>Nome do produto</th>
+                    <th>#Id</th>
+                    <th>Tipo de produto</th>
                     <th>Estoque disponível</th>
                     <th>Ponto de reposição</th>
                     <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
-                @for (inventory of inventoryDetails; track inventory.productId) {
+                @for (inventory of inventoryDetails; track inventory.inventoryId) {
                 <tr>
                     <td>{{ inventory.productId }}</td>
                     <td>{{ inventory.productName }}</td>
@@ -64,7 +68,7 @@
                     <td>{{ inventory.reorderPoint }}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" (click)="populateFormForEdit(inventory)">Editar</button>
-                        <button class="btn btn-sm btn-danger"
+                        <button class="btn btn-sm btn-danger" style="margin-left: 5%;"
                             (click)="openConfirmDialog(inventory.productId)">Deletar</button>
                     </td>
                 </tr>
@@ -77,6 +81,6 @@
         </app-dialog-box>
 
     </div>
-</body>
+</div>
 
 </html>

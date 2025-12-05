@@ -29,25 +29,44 @@ namespace ProjetoShopAPI.Controllers
         ConnectionString = _configuration.GetConnectionString("DefaultConnection")
       };
 
-      SqlCommand command = new SqlCommand
+      try
       {
-        CommandText = "sp_SaveInventoryData",
-        CommandType = CommandType.StoredProcedure,
-        Connection = connection
-      };
+        SqlCommand command = new SqlCommand
+        {
+          CommandText = "sp_SaveInventoryData",
+          CommandType = CommandType.StoredProcedure,
+          Connection = connection
+        };
 
-      command.Parameters.AddWithValue("@ProductId", requestDto.ProductId);
-      command.Parameters.AddWithValue("@ProductName", requestDto.ProductName);
-      command.Parameters.AddWithValue("@AvailableQuantity", requestDto.AvailableQuantity);
-      command.Parameters.AddWithValue("@ReorderPoint", requestDto.ReorderPoint);
+        connection.Open();
 
-      connection.Open();
+        using (var check = new SqlCommand("SELECT COUNT(*) FROM Inventory WHERE ProductId = @ProductId", connection))
+        {
+          check.Parameters.AddWithValue("@ProductId", requestDto.ProductId);
 
-      command.ExecuteNonQuery();
+          int exists = (int)check.ExecuteScalar();
 
-      connection.Close();
+          if (exists > 0)
+            return Conflict(new { message = "ProductId already exists" });
+        }
 
-      return Ok();
+        command.Parameters.AddWithValue("@ProductId", requestDto.ProductId);
+        command.Parameters.AddWithValue("@ProductName", requestDto.ProductName);
+        command.Parameters.AddWithValue("@AvailableQuantity", requestDto.AvailableQuantity);
+        command.Parameters.AddWithValue("@ReorderPoint", requestDto.ReorderPoint);
+
+        command.ExecuteNonQuery();
+
+        return Ok();
+      }
+      catch (SqlException ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+      finally
+      {
+        connection.Close();
+      }
     }
 
     [HttpGet]
@@ -124,25 +143,39 @@ namespace ProjetoShopAPI.Controllers
         ConnectionString = _configuration.GetConnectionString("DefaultConnection")
       };
 
-      SqlCommand command = new SqlCommand
+      try
       {
-        CommandText = "sp_UpdateInventoryData",
-        CommandType = CommandType.StoredProcedure,
-        Connection = connection
-      };
+        SqlCommand command = new SqlCommand
+        {
+          CommandText = "sp_UpdateInventoryData",
+          CommandType = CommandType.StoredProcedure,
+          Connection = connection
+        };
 
-      connection.Open();
+        connection.Open();
 
-      command.Parameters.AddWithValue("@ProductId", inventoryRequest.ProductId);
-      command.Parameters.AddWithValue("@ProductName", inventoryRequest.ProductName);
-      command.Parameters.AddWithValue("@AvailableQuantity", inventoryRequest.AvailableQuantity);
-      command.Parameters.AddWithValue("@ReorderPoint", inventoryRequest.ReorderPoint);
+        command.Parameters.AddWithValue("@ProductId", inventoryRequest.ProductId);
+        command.Parameters.AddWithValue("@ProductName", inventoryRequest.ProductName);
+        command.Parameters.AddWithValue("@AvailableQuantity", inventoryRequest.AvailableQuantity);
+        command.Parameters.AddWithValue("@ReorderPoint", inventoryRequest.ReorderPoint);
 
-      command.ExecuteNonQuery();
+        command.ExecuteNonQuery();
 
-      connection.Close();
+        return Ok();
+      }
+      catch (SqlException ex)
+      {
+        // Unique constraint SQL errors
+        if (ex.Number == 2601 || ex.Number == 2627)
+          return Conflict(new { message = "Duplicate ProductId detected." });
 
-      return Ok();
+        return BadRequest(new { message = ex.Message });
+      }
+      finally
+      {
+        connection.Close();
+      }
     }
+
   }
 }
