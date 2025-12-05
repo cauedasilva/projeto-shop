@@ -1,59 +1,32 @@
-# ProjetoShop
+# Projeto-Shop
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+Um sistema simples de gestão de loja — frontend em Angular e backend em .NET + SQL Server — com funcionalidades de CRUD para Estoque (produtos) e Clientes.
 
-## Development server
+## O que é
 
-To start a local development server, run:
+O Projeto-Shop é uma aplicação full-stack feita para gerenciar inventário e clientes de uma loja.  
+Permite cadastrar, editar, listar e deletar produtos e clientes através de uma interface web (Angular) consumindo uma API REST (ASP.NET).
 
-```bash
-ng serve
-```
+## Funcionalidades principais
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- CRUD de Produtos (Estoque)  
+  - Adicionar novo produto (ProductId, nome, quantidade disponível, ponto de reposição)  
+  - Listar todos os produtos  
+  - Atualizar dados de um produto existente  
+  - Remover um produto  
 
-## Code scaffolding
+- CRUD de Clientes  
+  - Adicionar novo cliente (CustomerId, nome, sobrenome, email, telefone, data de cadastro)  
+  - Listar todos os clientes  
+  - Atualizar dados do cliente  
+  - Remover cliente  
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- API REST com endpoints para “/inventory” e “/customer”  
+- Frontend Responsivo com Angular — interface para navegação, cadastro, edição e deleção.  
 
-```bash
-ng generate component component-name
-```
+## Tecnologias utilizadas
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Backend**: ASP.NET Core, C#, Microsoft.Data.SqlClient / System.Data.SqlClient, SQL Server  
+- **Frontend**: Angular, TypeScript, Bootstrap (para o layout e responsividade)  
+- **Comunicação**: JSON via HTTP, com chamadas GET / POST / PUT / DELETE  
+- **Banco de dados**: SQL Server (tabelas de Inventory e Customer)  
