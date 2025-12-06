@@ -1,6 +1,6 @@
 # Projeto-Shop
 
-Um sistema simples de gestão de loja, frontend em Angular e backend em .NET + SQL Server com funcionalidades de CRUD para Estoque (produtos) e Clientes.
+Um sistema simples de gestão de loja, frontend em Angular e backend em .NET + SQL Server com funcionalidades de CRUD para estoque (produtos) e clientes.
 
 ## O que é
 
@@ -22,7 +22,7 @@ Permite cadastrar, editar, listar e deletar produtos e clientes através de uma 
   - Remover cliente  
 
 - API REST com endpoints para “/inventory” e “/customer”  
-- Frontend Responsivo com Angular — interface para navegação, cadastro, edição e deleção.  
+- Frontend Responsivo com Angular: interface para navegação, cadastro, edição e deleção.  
 
 ## Tecnologias utilizadas
 
