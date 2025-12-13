@@ -4,7 +4,7 @@ Um sistema simples de gestão de loja, frontend em Angular e backend em .NET + S
 
 ## O que é
 
-O Projeto-Shop é uma aplicação full-stack feita para gerenciar inventário e clientes de uma loja.  
+O Projeto-Shop é uma aplicação full-stack para gerenciamento de inventário e clientes.  
 Permite cadastrar, editar, listar e deletar produtos e clientes através de uma interface web (Angular) consumindo uma API REST (ASP.NET).
 
 ## Funcionalidades principais
@@ -22,7 +22,7 @@ Permite cadastrar, editar, listar e deletar produtos e clientes através de uma 
   - Remover cliente  
 
 - API REST com endpoints para “/inventory” e “/customer”  
-- Frontend Responsivo com Angular: interface para navegação, cadastro, edição e deleção.  
+- Frontend com Angular: interface para navegação, cadastro, edição e deleção.  
 
 ## Tecnologias utilizadas
 
